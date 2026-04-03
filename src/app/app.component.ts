@@ -339,7 +339,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   activeModal = signal<Project | null>(null);
   
   // --- MÁQUINA DE ESCRIBIR ---
-  roles = ["QA Automation Engineer", "QA Manual Engineer", "FullStack Developer"];
+  roles = ["QA Engineer / Manual", "FullStack Developer"];
   typewriterText = signal("");
   private wordIndex = 0;
   private charIndex = 0;
