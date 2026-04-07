@@ -1,4 +1,4 @@
-import { Component, signal, computed, effect, ElementRef, ViewChild, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, signal, effect, ElementRef, ViewChild, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface Project {
@@ -9,7 +9,7 @@ interface Project {
   action: string;
   tech: string[];
   link: string;
-  webLink?: string; // Propiedad opcional para el sitio en vivo
+  webLink?: string;
 }
 
 @Component({
@@ -23,6 +23,7 @@ interface Project {
 
       <canvas #particleCanvas class="fixed inset-0 pointer-events-none z-0"></canvas>
 
+      <!-- Navegación -->
       <nav [class]="'fixed top-0 left-0 w-full z-50 transition-all duration-500 ' + (scrolled() ? 'py-4' : 'py-8')">
         <div class="max-w-6xl mx-auto px-6">
           <div class="bg-[#0B1120]/80 backdrop-blur-xl border border-white/10 rounded-full px-6 py-3 flex items-center justify-between shadow-[0_0_30px_rgba(0,0,0,0.5)]">
@@ -51,6 +52,7 @@ interface Project {
           </div>
         </div>
 
+        <!-- Menú Móvil -->
         <div [class]="'fixed inset-y-0 right-0 w-64 bg-[#0B1120]/95 backdrop-blur-2xl z-[60] border-l border-white/10 transform transition-transform duration-300 ease-in-out md:hidden ' + (isMenuOpen() ? 'translate-x-0' : 'translate-x-full')">
           <div class="p-8 flex flex-col h-full">
             <button (click)="toggleMenu()" class="self-end p-2 text-slate-400 mb-8">
@@ -72,6 +74,7 @@ interface Project {
       </nav>
 
       <main class="relative z-10">
+        <!-- Hero Section -->
         <section id="inicio" class="min-h-[85vh] flex flex-col items-center justify-center px-6 pt-24 pb-8 text-center">
           <div class="mt-8 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/10 to-fuchsia-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold tracking-[0.2em] uppercase mb-6 shadow-inner">
             <span class="relative flex h-2 w-2">
@@ -80,21 +83,36 @@ interface Project {
             </span>
             Open to work
           </div>
-          
-          <h1 class="text-4xl sm:text-6xl md:text-7xl font-black text-white text-center tracking-tight leading-[1.05] mb-6">
-            Hola, soy <br />
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-300 via-fuchsia-300 to-white animate-gradient-x">
-              Luana Lencina
-            </span>
-          </h1>
+          <!-- Foto Perfil -->
+          <div class="flex flex-col md:flex-row items-center justify-center gap-10">
 
+  <!-- FOTO (tu código intacto) -->
+  <div class="relative w-48 h-48 md:w-56 md:h-56 mb-8 md:mb-10 mx-auto md:mx-0 group flex-shrink-0">
+    <div class="absolute inset-0 bg-gradient-to-tr from-cyan-500 to-fuchsia-500 rounded-full animate-spin-slow opacity-75 blur-sm group-hover:blur-md transition-all"></div>
+    
+    <div class="relative w-full h-full rounded-full border-2 border-white/20 overflow-hidden bg-[#0B1120]">
+      <div class="relative w-full h-full rounded-full border-2 border-white/20 overflow-hidden bg-[#0B1120]">
+        <img src="assets/yo.jpeg" class="w-full h-full object-cover" alt="Luana Lencina">
+      </div>
+    </div>
+  </div>
+
+  <!-- TEXTO -->
+  <div class="text-center md:text-left">
+    <h1 class="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight leading-[1.05] mb-6">
+      Hola, soy <br />
+      <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-300 via-fuchsia-300 to-white animate-gradient-x">
+        Luana Lencina
+      </span>
+    </h1>
           <div class="text-lg sm:text-3xl font-mono text-slate-400 h-10 mb-8">
             <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-fuchsia-400 font-bold">
               {{ typewriterText() }}
               <span class="text-fuchsia-500 animate-pulse ml-1">|</span>
             </span>
           </div>
-
+      </div>
+          </div>
           <p class="max-w-2xl text-center text-slate-400 text-base sm:text-lg mb-10 leading-relaxed">
             Ingeniería de calidad y desarrollo enfocado en la <span class="text-white font-medium">robustez</span>, <span class="text-white font-medium">escalabilidad</span> y <span class="text-white font-medium">experiencia de usuario</span>.
           </p>
@@ -104,13 +122,48 @@ interface Project {
               Ver Proyectos 
               <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M9 18l6-6-6-6"/></svg>
             </a>
-            <a href="#" class="w-full sm:w-auto px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 hover:border-white/20 transition-all flex items-center justify-center gap-2 group">
-              <svg class="w-4 h-4 group-hover:translate-y-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3"/></svg>
-              Descargar CV
-            </a>
+            
+            <!-- Selector de CV Mejorado -->
+            <div class="relative w-full sm:w-auto">
+              <button 
+                (click)="toggleCVMenu($event)"
+                class="w-full sm:w-auto px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 hover:border-white/20 transition-all flex items-center justify-center gap-2 group overflow-hidden"
+              >
+                <svg [class]="'w-4 h-4 transition-transform duration-300 ' + (cvMenuOpen() ? 'rotate-180' : 'group-hover:translate-y-1')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4m4-5l5 5 5-5m-5 5V3"/>
+                </svg>
+                Descargar CV
+                <svg class="w-3 h-3 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M19 9l-7 7-7-7"/></svg>
+              </button>
+
+              @if (cvMenuOpen()) {
+                <div class="absolute top-full left-0 right-0 sm:right-auto sm:min-w-[240px] mt-3 p-2 bg-[#0B1120]/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[70] animate-in fade-in slide-in-from-top-2">
+                  <button (click)="downloadCV('dev')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors text-left group/item">
+                    <div class="w-10 h-10 rounded-lg bg-cyan-500/10 flex items-center justify-center text-cyan-400 group-hover/item:bg-cyan-500 group-hover/item:text-white transition-all">
+                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+                    </div>
+                    <div>
+                      <p class="text-sm font-bold text-white">FullStack Dev</p>
+                      <p class="text-[10px] text-slate-500 uppercase tracking-wider">Angular / Node.js</p>
+                    </div>
+                  </button>
+                  <div class="h-[1px] bg-white/5 my-1"></div>
+                  <button (click)="downloadCV('qa')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors text-left group/item">
+                    <div class="w-10 h-10 rounded-lg bg-fuchsia-500/10 flex items-center justify-center text-fuchsia-400 group-hover/item:bg-fuchsia-500 group-hover/item:text-white transition-all">
+                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                    </div>
+                    <div>
+                      <p class="text-sm font-bold text-white">QA Automation</p>
+                      <p class="text-[10px] text-slate-500 uppercase tracking-wider">Cypress / Selenium</p>
+                    </div>
+                  </button>
+                </div>
+              }
+            </div>
           </div>
         </section>
 
+        <!-- Sección Perfil -->
         <section id="perfil" class="py-12 px-6">
           <div class="max-w-6xl mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -167,6 +220,7 @@ interface Project {
           </div>
         </section>
 
+        <!-- Proyectos -->
         <section id="proyectos" class="py-12 px-6 bg-gradient-to-b from-transparent via-white/[0.02] to-transparent">
           <div class="max-w-6xl mx-auto">
             <h2 class="text-4xl sm:text-5xl font-black text-white mb-10 flex items-center gap-4">
@@ -214,6 +268,7 @@ interface Project {
           </div>
         </section>
 
+        <!-- Contacto -->
         <section id="contacto" class="py-16 px-6">
           <div class="max-w-4xl mx-auto">
             <div class="relative rounded-[2.5rem] sm:rounded-[3.5rem] bg-gradient-to-br from-cyan-600/20 via-[#0B1120] to-fuchsia-600/20 p-8 sm:p-12 border border-white/10 text-center overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.3)]">
@@ -247,6 +302,7 @@ interface Project {
         </p>
       </footer>
 
+      <!-- Modales de Proyectos -->
       @if (activeModal()) {
         <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 bg-black/95 backdrop-blur-md">
           <div class="bg-[#0B1120] border border-white/10 rounded-[2rem] sm:rounded-[3rem] w-full max-w-2xl p-8 sm:p-12 relative shadow-[0_0_100px_rgba(0,0,0,1)] overflow-y-auto max-h-[90vh]">
@@ -336,6 +392,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   scrolled = signal(false);
   bgActive = signal(true);
   isMenuOpen = signal(false); 
+  cvMenuOpen = signal(false); // Nuevo estado para el menú de CV
   activeModal = signal<Project | null>(null);
   
   // --- MÁQUINA DE ESCRIBIR ---
@@ -399,7 +456,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     },
     {
       id: "cypress",
-      title: "Demoblaze Test (Cypress)",
+      title: "Demoblaze Test",
       role: "QA Automation",
       problem: "Asegurar la estabilidad de flujos críticos de e-commerce en Demoblaze.",
       action: "Creación de suite de tests E2E automatizados cubriendo login, carrito y checkout.",
@@ -455,14 +512,32 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
   }
 
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (this.cvMenuOpen()) {
+       this.cvMenuOpen.set(false);
+    }
+  }
+
   // --- LÓGICA ---
   toggleMenu() {
     this.isMenuOpen.update(v => !v);
-    if (this.isMenuOpen()) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = 'auto';
-    }
+    document.body.style.overflow = this.isMenuOpen() ? 'hidden' : 'auto';
+  }
+
+  toggleCVMenu(event: Event) {
+    event.stopPropagation();
+    this.cvMenuOpen.update(v => !v);
+  }
+
+  downloadCV(type: 'dev' | 'qa') {
+    const urls = {
+      dev: '/assets/CV_DEV_LuanaLencina.pdf', // Reemplazar con rutas reales
+      qa:'/assets/CV_QA_LuanaLencina.pdf',
+    };
+    console.log(`Abriendo CV: ${type}`);
+    window.open(urls[type], '_blank');
+    this.cvMenuOpen.set(false);
   }
 
   private initTypewriter() {
