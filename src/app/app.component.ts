@@ -392,7 +392,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   scrolled = signal(false);
   bgActive = signal(true);
   isMenuOpen = signal(false); 
-  cvMenuOpen = signal(false); // Nuevo estado para el menú de CV
+  cvMenuOpen = signal(false);
   activeModal = signal<Project | null>(null);
   
   // --- MÁQUINA DE ESCRIBIR ---
@@ -532,7 +532,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
   downloadCV(type: 'dev' | 'qa') {
     const urls = {
-      dev: '/assets/CV_DEV_LuanaLencina.pdf', // Reemplazar con rutas reales
+      dev: '/assets/CV_DEV_LuanaLencina.pdf',
       qa:'/assets/CV_QA_LuanaLencina.pdf',
     };
     console.log(`Abriendo CV: ${type}`);
